@@ -126,8 +126,8 @@ export async function executeBuy(formData: FormData) {
     }
     }
 
-    export async function resetActivity() {
-    try {
+export async function resetActivity() {
+  try {
     // 1. Delete all ledger entries
     const { error: ledgerError } = await supabaseAdmin
       .from('portfolio_ledger')
@@ -143,25 +143,26 @@ export async function executeBuy(formData: FormData) {
       .single();
 
     if (wallet) {
-      const { error: walletError } = await supabaseAdmin
-        .from('user_wallet')
+      const walletAny = wallet as any;
+      const { error: walletError } = await (supabaseAdmin
+        .from('user_wallet') as any)
         .update({
           available_myr: 0,
           total_units_owned: 0,
           last_updated: new Date().toISOString(),
-        } as any)
-        .eq('id', (wallet as any).id);
+        })
+        .eq('id', walletAny.id);
 
       if (walletError) throw walletError;
     }
 
     revalidatePath('/');
     return { success: true };
-    } catch (error: any) {
+  } catch (error: any) {
     console.error('Reset Error:', error);
     return { success: false, error: error.message };
-    }
-    }
+  }
+}
 
 
 export async function refreshPriceAction() {
