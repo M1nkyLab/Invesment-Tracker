@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { YahooFinance } from 'yahoo-finance2';
+import yahooFinance from 'yahoo-finance2';
 import { supabaseAdmin } from '@/lib/supabase';
 import { calculateSMA, calculateRSI } from '@/lib/indicators';
 import { updateAISignal } from '@/lib/ai-logic';
@@ -8,7 +8,6 @@ import { DailyPrice } from '@/lib/types';
 export const dynamic = 'force-dynamic';
 
 const TICKER = 'VOO';
-const yahooFinance = new YahooFinance();
 
 export async function GET(req: NextRequest) {
   // Simple authorization check for Vercel Cron

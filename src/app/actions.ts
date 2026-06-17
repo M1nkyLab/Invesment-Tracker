@@ -165,8 +165,7 @@ export async function executeBuy(formData: FormData) {
 
 
 export async function refreshPriceAction() {
-  const { YahooFinance } = await import('yahoo-finance2');
-  const yahooFinance = new YahooFinance();
+  const yahooFinance = (await import('yahoo-finance2')).default;
   const { calculateSMA, calculateRSI } = await import('@/lib/indicators');
   const { updateAISignal } = await import('@/lib/ai-logic');
 
